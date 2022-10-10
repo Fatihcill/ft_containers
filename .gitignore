@@ -1,0 +1,5 @@
+.vscode
+*.o
+*.a
+ft_container
+.DS_Store
