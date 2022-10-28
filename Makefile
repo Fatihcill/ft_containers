@@ -6,7 +6,7 @@
 #    By: fcil <fcil@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/03 11:41:37 by fcil              #+#    #+#              #
-#    Updated: 2022/10/10 11:51:10 by fcil             ###   ########.fr        #
+#    Updated: 2022/10/28 16:19:09 by fcil             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,10 +19,10 @@ SRC	:= $(shell find $(SRC_DIR) -type f -name "*.cpp")
 OBJ = $(SRC:.cpp=.o)
 
 $(NAME): $(OBJ)
-	$(CC) $(FLAGS) -o $(NAME) $(OBJ)
+	$(CC) $(FLAGS) -o  $(NAME) $(OBJ)
 
 %.o	: %.cpp
-	$(CC) $(FLAGS) -o $@ -c $< 
+	$(CC) $(FLAGS) -I./include/ -o $@ -c $< 
 
 all: $(NAME)
 

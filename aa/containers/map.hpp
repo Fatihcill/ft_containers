@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rchallie <rchallie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fcil <fcil@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 17:14:11 by rchallie          #+#    #+#             */
-/*   Updated: 2020/12/10 21:35:37 by rchallie         ###   ########.fr       */
+/*   Updated: 2022/10/28 17:32:02 by fcil             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ namespace ft
 			class value_compare : ft::binary_function<value_type, value_type, bool>
 			{
 				friend class map<key_type, mapped_type, key_compare, Alloc>;
-				
 				protected:
 					Compare comp;
 					value_compare (Compare c) : comp(c) {}

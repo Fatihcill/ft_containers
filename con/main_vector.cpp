@@ -6,7 +6,7 @@
 /*   By: fcil <fcil@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 21:35:47 by mbari             #+#    #+#             */
-/*   Updated: 2022/10/26 16:59:57 by fcil             ###   ########.fr       */
+/*   Updated: 2022/10/28 16:08:31 by fcil             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ int main(){
 		for (PH::vector<int>::iterator it = fifth.begin(); it != fifth.end(); ++it)
 			std::cout << ' ' << *it;
 		std::cout << '\n';
-	exit(1);
 	}
 	{
 	//NOTE - Assign content (operator=)
@@ -477,5 +476,29 @@ int main(){
 		for (PH::vector<int>::iterator it = bar.begin(); it!=bar.end(); ++it)
 			std::cout << ' ' << *it;
 		std::cout << '\n';
+	}
+		{
+        std::cout << "~~~~~~~~~~ Get allocator ~~~~~~~~~~" << std::endl;
+		PH::vector<int> myvector;
+		int * p;
+		unsigned int i;
+		p = myvector.get_allocator().allocate(5);
+		for (i=0; i<5; i++) myvector.get_allocator().construct(&p[i],i);
+		std::cout << "The allocated array contains:";
+		for (i=0; i<5; i++) std::cout << ' ' << p[i];
+		std::cout << '\n';
+		for (i=0; i<5; i++) myvector.get_allocator().destroy(&p[i]);
+		myvector.get_allocator().deallocate(p,5);
+	}
+	{
+		PH::vector<int> foo (1,200);
+		std::cout << "------------- Library -------------" << std::endl;
+		PH::vector<int> bar (0);
+		if (foo==bar) std::cout << "foo and bar are equal\n";
+		if (foo!=bar) std::cout << "foo and bar are not equal\n";
+		if (foo< bar) std::cout << "foo is less than bar\n";
+		if (foo> bar) std::cout << "foo is greater than bar\n";
+		if (foo<=bar) std::cout << "foo is less than or equal to bar\n";
+		if (foo>=bar) std::cout << "foo is greater than or equal to bar\n";
 	}
 }
