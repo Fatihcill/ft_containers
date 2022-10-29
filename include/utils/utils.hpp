@@ -6,7 +6,7 @@
 /*   By: fcil <fcil@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 16:01:19 by fcil              #+#    #+#             */
-/*   Updated: 2022/10/28 17:24:50 by fcil             ###   ########.fr       */
+/*   Updated: 2022/10/29 18:00:16 by fcil             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 namespace ft
 {
-	doc https://en.cppreference.com/w/cpp/utility/pair
+	//doc https://en.cppreference.com/w/cpp/utility/pair
 	template <class T1, class T2>
 	struct pair
 	{
@@ -54,19 +54,19 @@ namespace ft
 
 	template <class T1, class T2>
 	bool operator<  (const ft::pair<T1,T2>& lhs, const ft::pair<T1,T2>& rhs)
-	{ return (lhs.first < rhs.first && lhs.second < rhs.second)); }
+	{ return (lhs.first < rhs.first && lhs.second < rhs.second); }
 
 	template <class T1, class T2>
 	bool operator<= (const ft::pair<T1,T2>& lhs, const ft::pair<T1,T2>& rhs)
-	{ return (lhs.first <= rhs.first && lhs.second <= rhs.second)); }
+	{ return (lhs.first <= rhs.first && lhs.second <= rhs.second); }
 
 	template <class T1, class T2>
 	bool operator>  (const ft::pair<T1,T2>& lhs, const ft::pair<T1,T2>& rhs)
-	{ return (lhs.first > rhs.first && lhs.second > rhs.second)); }
+	{ return (lhs.first > rhs.first && lhs.second > rhs.second); }
 
 	template <class T1, class T2>
 	bool operator>= (const ft::pair<T1,T2>& lhs, const ft::pair<T1,T2>& rhs)
-	{ return (lhs.first >= rhs.first && lhs.second >= rhs.second)); }
+	{ return (lhs.first >= rhs.first && lhs.second >= rhs.second); }
 
 	template <class T1, class T2>
 	ft::pair<T1,T2> make_pair(T1 x, T2 y)
@@ -133,4 +133,53 @@ namespace ft
 		}
 		return (first2 != last2);
 	}
+
+	//binary search tree nodes...
+	template <typename T>
+	struct BST_Node
+	{
+		public:
+			typedef T	value_type;
+			value_type value;
+			BST_Node* parent;
+			BST_Node* left;
+			BST_Node* right;
+			
+			BST_Node () : value(), parent(nullptr), left(nullptr), right(nullptr)
+			{}
+
+			BST_Node (BST_Node* parent = nullptr, BST_Node* left = nullptr, BST_Node* right = nullptr)
+			: value(), parent(parent), left(left), right(right)
+			{}
+
+			BST_Node (const value_type& val, BST_Node* parent = nullptr,
+					BST_Node* left = nullptr, BST_Node* right = nullptr)
+			: value(val), parent(parent), left(left), right(right)
+			{}
+
+			BST_Node (const BST_Node& nd) : value(nd.value), parent(nd.parent), left(nd.left), right(nd.right)
+			{}
+			
+			virtual ~BST_Node() {}
+
+			BST_Node &operator=(const BST_Node& nd)
+			{
+				if (nd == *this)
+					return (*this);
+				
+				this->value = nd.value;
+				this->parent = nd.parent;
+				this->left = nd.left;
+				this->right = nd.right;
+				
+				return (*this);
+			}
+
+			bool operator==(const BST_Node& nd)
+			{
+				if (value == nd.value)
+					return (true);
+				return (false);
+			}
+	};
 }
