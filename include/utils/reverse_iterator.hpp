@@ -6,7 +6,7 @@
 /*   By: fcil <fcil@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 14:02:09 by fcil              #+#    #+#             */
-/*   Updated: 2022/10/28 14:02:38 by fcil             ###   ########.fr       */
+/*   Updated: 2022/10/30 21:20:10 by fcil             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ namespace ft
 			iterator_type	_it;
 
 		public:
-			reverse_iterator(): _it(nullptr) {};
+			reverse_iterator(): _it(NULL) {};
 			explicit	reverse_iterator( iterator_type x ): _it(x) {};
 			template <class Iter>
 			reverse_iterator ( const reverse_iterator<Iter>& rev_it ): _it(rev_it.base()) {};
@@ -44,9 +44,9 @@ namespace ft
 			reverse_iterator		operator+( difference_type n ) const	{ return (reverse_iterator(this->_it - n)); };
 			reverse_iterator		operator-( difference_type n ) const	{ return (reverse_iterator(this->_it + n)); };
 			reverse_iterator&		operator++()							{--this->_it; return (*this); };								// pre-increment
-			reverse_iterator		operator++(int)							{ reverse_iterator temp(*this); --(*this); return (temp); };	// post-increment
+			reverse_iterator		operator++(int)							{ reverse_iterator temp(*this); ++(*this); return (temp); };	// post-increment
 			reverse_iterator&		operator--()							{++this->_it; return (*this); };								// pre-decrement
-			reverse_iterator		operator--(int)							{ reverse_iterator temp(*this); ++(*this); return (temp); };	// post-decrement
+			reverse_iterator		operator--(int)							{ reverse_iterator temp(*this); --(*this); return (temp); };	// post-decrement
 			reverse_iterator&		operator+=( difference_type n )			{ this->_it -= n; return (*this); };
 			reverse_iterator&		operator-=( difference_type n )			{ this->_it += n; return (*this); };
 			pointer					operator->()							{ return (&(operator*())); };

@@ -6,13 +6,15 @@
 /*   By: fcil <fcil@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 16:01:19 by fcil              #+#    #+#             */
-/*   Updated: 2022/10/30 17:02:33 by fcil             ###   ########.fr       */
+/*   Updated: 2022/10/30 20:23:20 by fcil             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
 #include <iostream>
+#include <cstddef>
+#include <uchar.h>
 
 namespace ft
 {
@@ -88,8 +90,6 @@ namespace ft
 	template <> 		struct	is_integral<long int>					{ static const bool value = true; };
 	template <> 		struct	is_integral<long long int>				{ static const bool value = true; };
 	template <> 		struct	is_integral<unsigned char>				{ static const bool value = true; };
-	template <> 		struct	is_integral<unsigned short int>			{ static const bool value = true; };
-	template <> 		struct	is_integral<unsigned int>				{ static const bool value = true; };
 	template <> 		struct	is_integral<unsigned long int>			{ static const bool value = true; };
 	template <> 		struct	is_integral<unsigned long long int>		{ static const bool value = true; };
 

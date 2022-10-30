@@ -6,7 +6,7 @@
 /*   By: fcil <fcil@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:38:39 by fcil              #+#    #+#             */
-/*   Updated: 2022/10/28 16:27:55 by fcil             ###   ########.fr       */
+/*   Updated: 2022/10/30 20:20:04 by fcil             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include <iostream>
 #include <algorithm>
 #include <limits>
+#include <cstddef>
 
 namespace ft
 {

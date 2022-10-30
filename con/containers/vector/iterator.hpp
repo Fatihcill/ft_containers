@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   iterator.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbari <mbari@student.42.fr>                +#+  +:+       +#+        */
+/*   By: fcil <fcil@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 12:09:44 by mbari             #+#    #+#             */
-/*   Updated: 2022/03/13 12:04:33 by mbari            ###   ########.fr       */
+/*   Updated: 2022/10/30 20:18:00 by fcil             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ namespace ft
 			iterator_type	_it;
 
 		public:
-			VecIter(): _it(nullptr) {};
+			VecIter(): _it(NULL) {};
 			explicit	VecIter( iterator_type x ): _it(x) {};
 			template <class Iter>
 			VecIter ( const VecIter<Iter>& vec_it ): _it(vec_it.base()) {};

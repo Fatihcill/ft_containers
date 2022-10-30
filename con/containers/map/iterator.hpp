@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   iterator.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbari <mbari@student.42.fr>                +#+  +:+       +#+        */
+/*   By: fcil <fcil@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 12:09:44 by mbari             #+#    #+#             */
-/*   Updated: 2022/03/22 23:52:30 by mbari            ###   ########.fr       */
+/*   Updated: 2022/10/30 20:18:00 by fcil             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ namespace ft
 			Node_ptr	_it;
 
 		public:
-			TreeIter(): _it(nullptr) {};
+			TreeIter(): _it(NULL) {};
 			explicit	TreeIter( Node_ptr x ): _it(x) {};
 			template <class Iter>
 			TreeIter ( const TreeIter<Iter, Node_ptr>& node_it ): _it(node_it.base()) {};

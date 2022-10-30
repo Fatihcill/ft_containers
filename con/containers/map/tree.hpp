@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbari <mbari@student.42.fr>                +#+  +:+       +#+        */
+/*   By: fcil <fcil@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 14:35:25 by mbari             #+#    #+#             */
-/*   Updated: 2022/03/23 00:01:47 by mbari            ###   ########.fr       */
+/*   Updated: 2022/10/30 20:18:00 by fcil             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ namespace ft
 		private:
 			void	_destroy(Node_ptr node)
 			{
-				if (node != nullptr)
+				if (node != NULL)
 				{
 					_destroy(node->left);
 					_destroy(node->right);
@@ -142,20 +142,20 @@ namespace ft
 				Node_ptr newnode = this->_alloc.allocate(1);
 				this->_alloc.construct(newnode, key);
 				newnode->height = 1;
-				newnode->parent = nullptr;
-				newnode->left = nullptr;
-				newnode->right = nullptr;
+				newnode->parent = NULL;
+				newnode->left = NULL;
+				newnode->right = NULL;
 				return (newnode);
 			};
 			void _deletNode(Node_ptr* node)
 			{
 				this->_alloc.destroy(*node);
 				this->_alloc.deallocate(*node, 1);
-				*node = nullptr;
+				*node = NULL;
 			};
 			int		_Height(Node_ptr temp)
 			{
-				if (temp == nullptr)
+				if (temp == NULL)
 					return (0);
 				return (temp->height);
 			};
@@ -183,7 +183,7 @@ namespace ft
 				}
 				y->parent = x->parent;
 				x->parent = y;
-				if (T2 != nullptr)
+				if (T2 != NULL)
 					T2->parent = x;
 				x->height = std::max(_Height(x->left), _Height(x->right)) + 1;
 				y->height = std::max(_Height(y->left), _Height(y->right)) + 1;
@@ -206,7 +206,7 @@ namespace ft
 				}
 				child->parent = parent->parent;
 				parent->parent = child;
-				if (T2 != nullptr)
+				if (T2 != NULL)
 					T2->parent = parent;
 				parent->height = std::max(_Height(parent->left), _Height(parent->right)) + 1;
 				child->height = std::max(_Height(child->left), _Height(child->right)) + 1;
@@ -248,7 +248,7 @@ namespace ft
 
 			Node_ptr	_insert(Node_ptr temp, Node_ptr newNode)
 			{
-				if (temp == nullptr || temp == this->_end)
+				if (temp == NULL || temp == this->_end)
 					return (newNode);
 				if (!this->_comp(temp->key.first, newNode->key.first))
 				{
@@ -271,37 +271,37 @@ namespace ft
 
 			Node_ptr	_remove(Node_ptr root, T key)
 			{
-				if (root == nullptr) return (nullptr);
+				if (root == NULL) return (NULL);
 				else if (this->_comp(key.first, root->key.first))
 					root->left = _remove(root->left, key);
 				else if (this->_comp(root->key.first, key.first))
 					root->right = _remove(root->right, key);
 				else
 				{
-					if (root->left == nullptr && root->right == nullptr){
+					if (root->left == NULL && root->right == NULL){
 						this->_alloc.destroy(root);
 						this->_alloc.deallocate(root, 1);
-						root = nullptr;
+						root = NULL;
 						return (root);
 					}
-					else if (root->left == nullptr)
+					else if (root->left == NULL)
 					{
 						Node_ptr	temp = root;
 						root = root->right;
 						root->parent = temp->parent;
 						this->_alloc.destroy(temp);
 						this->_alloc.deallocate(temp, 1);
-						temp = nullptr;
+						temp = NULL;
 						return (root);
 					}
-					else if (root->right == nullptr)
+					else if (root->right == NULL)
 					{
 						Node_ptr	temp = root;
 						root = root->left;
 						root->parent = temp->parent;
 						this->_alloc.destroy(temp);
 						this->_alloc.deallocate(temp, 1);
-						temp = nullptr;
+						temp = NULL;
 						return (root);
 					}
 					else{
@@ -318,7 +318,7 @@ namespace ft
 
 			Node_ptr _search(Node_ptr temp, key_type key) const
 			{
-				if (temp == nullptr)
+				if (temp == NULL)
 					return (this->_end);
 
 				if (temp->key.first == key)
@@ -334,9 +334,9 @@ namespace ft
 			{
 				if (!temp->left && !temp->right)
 					temp->height = 1;
-				else if (temp->left == nullptr)
+				else if (temp->left == NULL)
 					temp->height = 1 + temp->right->height;
-				else if (temp->right == nullptr || temp->right == this->_end)
+				else if (temp->right == NULL || temp->right == this->_end)
 					temp->height = 1 + temp->left->height;
 				else
 					temp->height = 1 + std::max(temp->right->height, temp->left->height);
@@ -422,7 +422,7 @@ namespace ft
 					if (val == node->key.first)
 						break;
 					node = successor(node);
-					if (node == nullptr || node == this->_end)
+					if (node == NULL || node == this->_end)
 					{
 						return (this->_end);
 					}
@@ -436,7 +436,7 @@ namespace ft
 				while (!this->_comp(val, node->key.first))
 				{
 					node = successor(node);
-					if (node == nullptr || node == this->_end)
+					if (node == NULL || node == this->_end)
 					{
 						return (this->_end);
 					}
@@ -487,7 +487,7 @@ namespace ft
 			// Helper function to print branches of the binary tree
 			void showTrunks(Trunk *p)
 			{
-				if (p == nullptr) {
+				if (p == NULL) {
 					return;
 				}
 
@@ -497,7 +497,7 @@ namespace ft
 
 			void printTree(Node_ptr root, Trunk *prev, bool isLeft)
 			{
-				if (root == nullptr || root == this->_end)
+				if (root == NULL || root == this->_end)
 					return;
 				std::string prev_str = "    ";
 				Trunk *trunk = new Trunk(prev, prev_str);
@@ -519,7 +519,7 @@ namespace ft
 
 				showTrunks(trunk);
 				std::cout << RED "{ " << root->key.first << " | " << root->key.second << " } "<< RESET;
-				if (root->parent != nullptr)
+				if (root->parent != NULL)
 					std::cout << " {P: " << root->parent->key.first << "} H: " << root->height << GREEN " FB: " << _getBalanceFactor(root) << RESET<< std::endl;
 				else
 					std::cout << " {P: NULL" << "} H: " << root->height  << GREEN " FB: " << _getBalanceFactor(root) << RESET << std::endl;
@@ -536,14 +536,14 @@ namespace ft
 
 
 			public: /*             print function                         */
-				void	print() { printTree(this->_root, nullptr, false); };
+				void	print() { printTree(this->_root, NULL, false); };
 
 	};
 
 	template<class Node_ptr>
 	Node_ptr _TreeMin(Node_ptr temp)
 	{
-		while (temp->left != nullptr)
+		while (temp->left != NULL)
 			temp = temp->left;
 		return (temp);
 	};
@@ -551,7 +551,7 @@ namespace ft
 	template<class Node_ptr>
 	Node_ptr _TreeMax(Node_ptr temp)
 	{
-		while (temp->right != nullptr)
+		while (temp->right != NULL)
 			temp = temp->right;
 		return (temp);
 	};
@@ -583,7 +583,7 @@ namespace ft
 			node = temp;
 			temp = temp->parent;
 		}
-		if (temp == nullptr)
+		if (temp == NULL)
 			return (node);
 		return (temp);
 	};

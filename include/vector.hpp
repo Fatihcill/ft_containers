@@ -6,7 +6,7 @@
 /*   By: fcil <fcil@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 15:47:05 by fcil              #+#    #+#             */
-/*   Updated: 2022/10/28 16:45:28 by fcil             ###   ########.fr       */
+/*   Updated: 2022/10/30 21:06:21 by fcil             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,25 +49,25 @@ namespace ft
 		
 		//doc Construct https://cplusplus.com/reference/vector/vector/vector/
 		public:
-			explicit vector (const allocator_type& alloc = allocator_type()): _alloc(alloc), _vec(nullptr), _size(0), _capacity(0)
+			explicit vector (const allocator_type& alloc = allocator_type()): _alloc(alloc), _vec(NULL), _size(0), _capacity(0)
 			{};
 
 			explicit vector (	size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()):
-					_alloc(alloc),_vec(nullptr), _size(0), _capacity(0)
+					_alloc(alloc),_vec(NULL), _size(0), _capacity(0)
 			{ assign(n, val); };
 
 			template <class InputIterator>
 			vector (InputIterator first, InputIterator last,const allocator_type& alloc = allocator_type(), typename ft::enable_if<!is_integral<InputIterator>::value, bool>::type = true):
-				_alloc(alloc), _vec(nullptr), _size(0), _capacity(0)
+				_alloc(alloc), _vec(NULL), _size(0), _capacity(0)
 			{ assign(first, last); };
 
-			vector (const vector& x): _vec(nullptr), _size(0), _capacity(0)
+			vector (const vector& x): _vec(NULL), _size(0), _capacity(0)
 			{ *this=  x; };
 
 			//doc : https://cplusplus.com/reference/vector/vector/~vector/
 			~vector()
 			{
-				if (this->_vec != nullptr)
+				if (this->_vec != NULL)
 					clear();
 			};
 

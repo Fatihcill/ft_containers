@@ -6,7 +6,7 @@
 /*   By: fcil <fcil@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 14:44:08 by fcil              #+#    #+#             */
-/*   Updated: 2022/10/30 17:02:44 by fcil             ###   ########.fr       */
+/*   Updated: 2022/10/30 20:18:00 by fcil             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,15 @@ namespace ft
 			BST_Node* left;
 			BST_Node* right;
 			
-			BST_Node () : value(), parent(nullptr), left(nullptr), right(nullptr)
+			BST_Node () : value(), parent(NULL), left(NULL), right(NULL)
 			{}
 
-			BST_Node (BST_Node* parent = nullptr, BST_Node* left = nullptr, BST_Node* right = nullptr)
+			BST_Node (BST_Node* parent = NULL, BST_Node* left = NULL, BST_Node* right = NULL)
 			: value(), parent(parent), left(left), right(right)
 			{}
 
-			BST_Node (const value_type& val, BST_Node* parent = nullptr,
-					BST_Node* left = nullptr, BST_Node* right = nullptr)
+			BST_Node (const value_type& val, BST_Node* parent = NULL,
+					BST_Node* left = NULL, BST_Node* right = NULL)
 			: value(val), parent(parent), left(left), right(right)
 			{}
 

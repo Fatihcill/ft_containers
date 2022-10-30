@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbari <mbari@student.42.fr>                +#+  +:+       +#+        */
+/*   By: fcil <fcil@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/26 12:04:04 by mbari             #+#    #+#             */
-/*   Updated: 2022/03/25 00:55:01 by mbari            ###   ########.fr       */
+/*   Updated: 2022/10/30 20:18:00 by fcil             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,20 +47,20 @@ namespace ft
 			size_type											_capacity;
 
 		public: /*             constructers                         */
-			explicit vector (const allocator_type& alloc = allocator_type()): _alloc(alloc), _vec(nullptr), _size(0), _capacity(0) {};
+			explicit vector (const allocator_type& alloc = allocator_type()): _alloc(alloc), _vec(NULL), _size(0), _capacity(0) {};
 			explicit vector (	size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()):
-					_alloc(alloc), _size(0), _capacity(0), _vec(nullptr)
+					_alloc(alloc), _size(0), _capacity(0), _vec(NULL)
 			{ assign(n, val); };
 			template <class InputIterator>
 			vector (InputIterator first, InputIterator last,const allocator_type& alloc = allocator_type(), typename ft::enable_if<!is_integral<InputIterator>::value, bool>::type = true):
-				_alloc(alloc), _size(0), _capacity(0), _vec(nullptr)
+				_alloc(alloc), _size(0), _capacity(0), _vec(NULL)
 			{ assign(first, last); };
-			vector (const vector& x): _vec(nullptr), _size(0), _capacity(0) { *this = x; };
+			vector (const vector& x): _vec(NULL), _size(0), _capacity(0) { *this = x; };
 
 		public: /*             destructor                         */
 			~vector()
 			{
-				if (this->_vec != nullptr)
+				if (this->_vec != NULL)
 					clear();
 			};
 

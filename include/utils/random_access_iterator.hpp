@@ -6,7 +6,7 @@
 /*   By: fcil <fcil@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:35:02 by fcil              #+#    #+#             */
-/*   Updated: 2022/10/28 16:25:07 by fcil             ###   ########.fr       */
+/*   Updated: 2022/10/30 21:09:28 by fcil             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ namespace ft
 			iterator_type	_it;
 
 		public:
-			random_access_iterator(): _it(nullptr) {};
+			random_access_iterator(): _it(NULL) {};
 			explicit	random_access_iterator( iterator_type x ): _it(x) {};
 			template <class Iter>
 			random_access_iterator ( const random_access_iterator<Iter>& vec_it ): _it(vec_it.base()) {};
@@ -45,12 +45,12 @@ namespace ft
 			reference		operator*() const						{ return (*this->_it); };
 			random_access_iterator			operator+( difference_type n ) const	{ return (random_access_iterator(this->_it + n)); };
 			random_access_iterator			operator-( difference_type n ) const	{ return (random_access_iterator(this->_it - n)); };
-			random_access_iterator&		operator++()							{++this->_it; return (*this); };					// pre-increment
+			random_access_iterator&			operator++()							{++this->_it; return (*this); };					// pre-increment
 			random_access_iterator			operator++(int)							{ random_access_iterator temp(*this); ++(*this); return (temp); }; // post-increment
-			random_access_iterator&		operator--()							{--this->_it; return (*this); };					// pre-decrement
+			random_access_iterator&			operator--()							{--this->_it; return (*this); };					// pre-decrement
 			random_access_iterator			operator--(int)							{ random_access_iterator temp(*this); --(*this); return (temp); };	// post-decrement
-			random_access_iterator&		operator+=( difference_type n )			{ this->_it += n; return (*this); };
-			random_access_iterator&		operator-=( difference_type n )			{ this->_it -= n; return (*this); };
+			random_access_iterator&			operator+=( difference_type n )			{ this->_it += n; return (*this); };
+			random_access_iterator&			operator-=( difference_type n )			{ this->_it -= n; return (*this); };
 			pointer			operator->()							{ return (&(operator*())); };
 			reference		operator[]( difference_type n ) const	{ return (*(this->_it + n)); };
 	};
