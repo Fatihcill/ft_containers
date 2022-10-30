@@ -6,7 +6,7 @@
 /*   By: fcil <fcil@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 14:44:08 by fcil              #+#    #+#             */
-/*   Updated: 2022/10/29 17:56:06 by fcil             ###   ########.fr       */
+/*   Updated: 2022/10/30 17:02:44 by fcil             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,55 @@
 
 namespace ft
 {
+	//binary search tree nodes...
+	template <typename T>
+	struct BST_Node
+	{
+		public:
+			typedef T	value_type;
+			value_type value;
+			BST_Node* parent;
+			BST_Node* left;
+			BST_Node* right;
+			
+			BST_Node () : value(), parent(nullptr), left(nullptr), right(nullptr)
+			{}
+
+			BST_Node (BST_Node* parent = nullptr, BST_Node* left = nullptr, BST_Node* right = nullptr)
+			: value(), parent(parent), left(left), right(right)
+			{}
+
+			BST_Node (const value_type& val, BST_Node* parent = nullptr,
+					BST_Node* left = nullptr, BST_Node* right = nullptr)
+			: value(val), parent(parent), left(left), right(right)
+			{}
+
+			BST_Node (const BST_Node& nd) : value(nd.value), parent(nd.parent), left(nd.left), right(nd.right)
+			{}
+			
+			virtual ~BST_Node() {}
+
+			BST_Node &operator=(const BST_Node& nd)
+			{
+				if (nd == *this)
+					return (*this);
+				
+				this->value = nd.value;
+				this->parent = nd.parent;
+				this->left = nd.left;
+				this->right = nd.right;
+				
+				return (*this);
+			}
+
+			bool operator==(const BST_Node& nd)
+			{
+				if (value == nd.value)
+					return (true);
+				return (false);
+			}
+	};
+
 	template <class T, class Compare = std::less<T>, class Node = ft::BST_Node<T>,
 			class Type_Alloc = std::allocator<T>, class Node_Alloc = std::allocator<Node> >
 	class Binary_search_tree

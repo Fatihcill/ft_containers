@@ -6,7 +6,7 @@
 /*   By: fcil <fcil@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 16:01:19 by fcil              #+#    #+#             */
-/*   Updated: 2022/10/29 18:00:16 by fcil             ###   ########.fr       */
+/*   Updated: 2022/10/30 17:02:33 by fcil             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@ namespace ft
 			{}
 			pair& operator= (const pair& pr)
 			{
-				if (*this == pr)
-					return (*this);
 				this->first = pr.first;
 				this->second = pr.second;
 				return (*this);
@@ -133,53 +131,4 @@ namespace ft
 		}
 		return (first2 != last2);
 	}
-
-	//binary search tree nodes...
-	template <typename T>
-	struct BST_Node
-	{
-		public:
-			typedef T	value_type;
-			value_type value;
-			BST_Node* parent;
-			BST_Node* left;
-			BST_Node* right;
-			
-			BST_Node () : value(), parent(nullptr), left(nullptr), right(nullptr)
-			{}
-
-			BST_Node (BST_Node* parent = nullptr, BST_Node* left = nullptr, BST_Node* right = nullptr)
-			: value(), parent(parent), left(left), right(right)
-			{}
-
-			BST_Node (const value_type& val, BST_Node* parent = nullptr,
-					BST_Node* left = nullptr, BST_Node* right = nullptr)
-			: value(val), parent(parent), left(left), right(right)
-			{}
-
-			BST_Node (const BST_Node& nd) : value(nd.value), parent(nd.parent), left(nd.left), right(nd.right)
-			{}
-			
-			virtual ~BST_Node() {}
-
-			BST_Node &operator=(const BST_Node& nd)
-			{
-				if (nd == *this)
-					return (*this);
-				
-				this->value = nd.value;
-				this->parent = nd.parent;
-				this->left = nd.left;
-				this->right = nd.right;
-				
-				return (*this);
-			}
-
-			bool operator==(const BST_Node& nd)
-			{
-				if (value == nd.value)
-					return (true);
-				return (false);
-			}
-	};
 }
