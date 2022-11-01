@@ -6,7 +6,7 @@
 #    By: fcil <fcil@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/03 11:41:37 by fcil              #+#    #+#              #
-#    Updated: 2022/10/30 16:16:24 by fcil             ###   ########.fr        #
+#    Updated: 2022/11/01 13:39:58 by fcil             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,8 @@ clean:
 fclean: clean
 		rm -f $(NAME)
 
-re: fclean all
+re:
+	make fclean
+	make all
 
 .PHONY: all clean fclean re
