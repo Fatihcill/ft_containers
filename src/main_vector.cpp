@@ -6,11 +6,12 @@
 /*   By: fcil <fcil@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 21:35:47 by mbari             #+#    #+#             */
-/*   Updated: 2022/11/01 11:45:01 by fcil             ###   ########.fr       */
+/*   Updated: 2022/11/01 11:58:41 by fcil             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vector.hpp"
+#include "stack.hpp"
 #include <vector>
 #include <stack>
 #include <iomanip>
@@ -51,8 +52,8 @@ void	rprint_vector(ft::vector<int> ft, std::vector<int> std)
 	std::cout << std::endl;
 }
 
-int main(){
-	{
+int main()
+{
 		std::cout << "================== Vector EXAMPLES ==================" << std::endl;
 	{
 		std::cout << "------------- Constructor  -------------" << std::endl;
@@ -258,22 +259,22 @@ int main(){
 	{
 
 		// NOTE - Insert elements
-		std::cout << "------------- Library -------------" << std::endl;
-		ft::vector<int> myvector1(3, 100);
-		myvector1.insert(it1, 2, 300);
-		it1 = myvector1.begin();
-		ft::vector<int> anothervector1 (2,400);
-		std::cout << "myvector size : " << myvector1.size() << std::endl;
-		std::cout << "myvector capacity : " << myvector1.capacity() << std::endl;
-		myvector1.insert (it1+2,anothervector1.begin(),anothervector1.end());
-		std::cout << "myvector size : " << myvector1.size() << std::endl;
-		std::cout << "myvector capacity : " << myvector1.capacity() << std::endl;
-		int myarray1 [] = { 501,502,503 };
-		myvector1.insert (myvector1.begin(), myarray1, myarray1+3);
-		std::cout << "myvector contains:";
-		for (it1=myvector1.begin(); it1<myvector1.end(); it1++)
-			std::cout << ' ' << *it1;
-		std::cout << '\n';
+		// std::cout << "------------- Library -------------" << std::endl;
+		// ft::vector<int> myvector1(3, 100);
+		// myvector1.insert(it1, 2, 300);
+		// it1 = myvector1.begin();
+		// ft::vector<int> anothervector1 (2,400);
+		// std::cout << "myvector size : " << myvector1.size() << std::endl;
+		// std::cout << "myvector capacity : " << myvector1.capacity() << std::endl;
+		// myvector1.insert (it1+2,anothervector1.begin(),anothervector1.end());
+		// std::cout << "myvector size : " << myvector1.size() << std::endl;
+		// std::cout << "myvector capacity : " << myvector1.capacity() << std::endl;
+		// int myarray1 [] = { 501,502,503 };
+		// myvector1.insert (myvector1.begin(), myarray1, myarray1+3);
+		// std::cout << "myvector contains:";
+		// for (it1=myvector1.begin(); it1<myvector1.end(); it1++)
+		// 	std::cout << ' ' << *it1;
+		// std::cout << '\n';
 	}
 	{
 		ft::vector<int> vec1;
@@ -288,6 +289,7 @@ int main(){
 		std::cout << "The vector elements are: ";
 		for (ft::vector<int>::iterator it1 = vec1.begin(); it1 != vec1.end(); ++it1)
 			std::cout << *it1 << " ";
+		std::cout << "---------------------------------" << std::endl;
 	}
 	// {
 	// 	// NOTE - Erase elements
