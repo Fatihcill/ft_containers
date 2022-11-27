@@ -4,7 +4,7 @@
 #include "RBTree.hpp"
 
 namespace ft {
-
+//https://cplusplus.com/reference/set/set/?kw=set
 template < class Key,
 			class Compare = std::less< Key >,
 			class Alloc = std::allocator< Key >
@@ -154,11 +154,6 @@ template < class Key,
 	};
 
 	void erase(iterator first, iterator last){
-		// while (first != last)
-		// {
-		// 	erase(*first);
-		// 	first++;
-		// }
 		iterator next = first;
 		while (first != last)
 		{
@@ -237,8 +232,6 @@ template < class Key,
 	pair<const_iterator, const_iterator> equal_range(const value_type& val) const{
 		return tree.equal_range(val);
 	}
-
-	//--------------SUPPORT--------------// da cancellare in pre-push
 
 	void print()
 	{

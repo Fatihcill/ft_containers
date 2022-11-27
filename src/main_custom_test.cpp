@@ -6,16 +6,18 @@
 /*   By: fcil <fcil@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 21:35:47 by mbari             #+#    #+#             */
-/*   Updated: 2022/11/01 16:12:03 by fcil             ###   ########.fr       */
+/*   Updated: 2022/11/27 18:19:02 by fcil             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vector.hpp"
 #include "stack.hpp"
 #include "map.hpp"
+#include "set.hpp"
 #include <vector>
 #include <map>
 #include <stack>
+#include <set>
 #include <iomanip>
 
 void	print_vector(ft::vector<int> ft, std::vector<int> std)
@@ -76,7 +78,7 @@ void	print_map(ft::map<char, int> ft, std::map<char, int> std)
 		if(itstd != std.end())
 			itstd++;
 	}
-	std::cout << "---------------------------------" << std::endl;
+	std::cout << std::endl;
 }
 
 int main()
@@ -403,11 +405,325 @@ int main()
 		std::map<char,int> third_std (second_std);
 		print_map(third_ft, third_std);
 
-		ft::map<char,int, std::greater<int> > forth_ft(first_ft.begin(), first_ft.end());
+		ft::map<char,int, std::greater<char> > forth_ft(first_ft.begin(), first_ft.end());
 		std::map<char,int, std::greater<char> > forth_std(first_std.begin(), first_std.end());
 		std::cout << forth_ft.begin()->first << "->" << (++forth_ft.begin())->first 
 		<< "->" << (--forth_ft.end())->first << std::endl;
 		std::cout << forth_std.begin()->first << "->" << (++forth_std.begin())->first
 		<< "->" << (--forth_std.end())->first << std::endl;
+		std::cout << "---------------------------------" << std::endl;
+	}
+	{
+		std::cout << "size and = operator" << std::endl;
+		ft::map<char, int> first;
+		ft::map<char, int> second;
+		first['x'] = 8;
+		first['y'] = 16;
+		first['z'] = 32;
+		second = first;				  // second now contains 3 ints
+		first = ft::map<char, int>(); // and first is now empty
+		std::cout << "Size of firstft: " << first.size() << '\n';
+		std::cout << "Size of secondft: " << second.size() << "\n\n";
+
+		std::map<char, int> firststd;
+		std::map<char, int> secondstd;
+		firststd['x'] = 8;
+		firststd['y'] = 16;
+		firststd['z'] = 32;
+		secondstd = firststd;				  // second now contains 3 ints
+		firststd = std::map<char, int>(); // and first is now empty
+		std::cout << "Size of firststd: " << first.size() << '\n';
+		std::cout << "Size of secondstd: " << second.size() << '\n';
+		std::cout << "---------------------------------" << std::endl;
+	}
+	{
+		ft::map<char, std::string> mymap;
+		mymap['a'] = "an element";
+		mymap['b'] = "another element";
+		mymap['c'] = mymap['b'];
+		std::cout << "mymap['a'] is " << mymap['a'] << '\n';
+		std::cout << "mymap['b'] is " << mymap['b'] << '\n';
+		std::cout << "mymap['c'] is " << mymap['c'] << '\n';
+		std::cout << "mymap['d'] is " << mymap['d'] << '\n';
+		std::cout << "mymap now contains " << mymap.size() << " elements.\n";
+		std::cout << "mymap.size() is " << mymap.size() << "\n \n";
+
+		std::map<char, std::string> stdmap;
+		stdmap['a'] = "an element";
+		stdmap['b'] = "another element";
+		stdmap['c'] = stdmap['b'];
+		std::cout << "stdmap['a'] is " << stdmap['a'] << '\n';
+		std::cout << "stdmap['b'] is " << stdmap['b'] << '\n';
+		std::cout << "stdmap['c'] is " << stdmap['c'] << '\n';
+		std::cout << "stdmap['d'] is " << stdmap['d'] << '\n';
+		std::cout << "stdmap now contains " << stdmap.size() << " elements.\n";
+		std::cout << "stdmap.size() is " << stdmap.size() << '\n';
+		
+		std::cout << "---------------------------------" << std::endl;
+	}
+	{
+		std::cout << "find and erase" << std::endl;
+		ft::map<char, int> mymap;
+		ft::map<char, int>::iterator it;
+		mymap['a'] = 50;
+		mymap['b'] = 100;
+		mymap['c'] = 150;
+		// mymap.print();
+		it = mymap.find('b');
+		if (it != mymap.end())
+			mymap.erase(it);
+
+		std::map<char, int> stdmap;
+		std::map<char, int>::iterator itstd;
+		stdmap['a'] = 50;
+		stdmap['b'] = 100;
+		stdmap['c'] = 150;
+		// stdmap.print();
+		itstd = stdmap.find('b');
+		if (itstd != stdmap.end())
+			stdmap.erase(itstd);
+
+		print_map(mymap, stdmap);
+		std::cout << "---------------------------------" << std::endl;
+	}
+	{	
+		std::cout << "swap" << std::endl;
+		ft::map<char, int> foo, bar;
+		std::map<char, int> foostd, barstd;
+		foo['x'] = 100;
+		foo['y'] = 200;
+		bar['a'] = 11;
+		bar['b'] = 22;
+		bar['c'] = 33;
+
+		foostd['x'] = 100;
+		foostd['y'] = 200;
+		barstd['a'] = 11;
+		barstd['b'] = 22;
+		barstd['c'] = 33;
+		foo.swap(bar);
+		foostd.swap(barstd);
+		std::cout << "foo contains:\n";
+		print_map(foo, foostd);
+		std::cout << "bar contains:\n";
+		print_map(bar, barstd);
+		std::cout << "---------------------------------" << std::endl;
+	}
+	{
+		std::cout << "bounds" << std::endl;
+		ft::map<char, int> mymap;
+		ft::map<char, int>::iterator itlow, itup;
+		mymap['a'] = 20;
+		mymap['b'] = 40;
+		mymap['c'] = 60;
+		mymap['d'] = 80;
+		mymap['f'] = 100;
+		itlow = mymap.lower_bound('b'); // itlow points to b
+		itup = mymap.upper_bound('d');	// itup points to f (not d!)
+
+		std::cout << itlow->first << " " << itlow->second << std::endl;
+		std::cout << itup->first << " " << itup->second << std::endl << std::endl;
+		mymap.erase(itlow, itup);
+		for (ft::map<char, int>::iterator it = mymap.begin(); it != mymap.end(); ++it)
+			std::cout << it->first << " => " << it->second << '\n';
+		std::cout << "---------------------------------" << std::endl;
+	}
+	{
+		std::cout << "equal_range" << std::endl;
+		ft::map<char, int> mymap;
+		mymap['a'] = 20;
+		mymap['b'] = 40;
+		mymap['c'] = 60;
+		mymap['d'] = 80;
+		mymap['f'] = 100;
+		ft::pair<ft::map<char, int>::iterator, ft::map<char, int>::iterator> ret;
+		ret = mymap.equal_range('b');
+		std::cout << "lower bound points to: ";
+		std::cout << ret.first->first << " => " << ret.first->second << '\n';
+		std::cout << "upper bound points to: ";
+		std::cout << ret.second->first << " => " << ret.second->second << '\n';
+		std::cout << "---------------------------------" << std::endl;
+	}
+	{
+		std::cout << "operators" << std::endl;
+		std::map<char, int> foo, bar;
+		foo['a'] = 100;
+		foo['b'] = 200;
+		bar['a'] = 99;
+		bar['b'] = 1000;
+
+		// foo ({{a,100},{b,200}}) vs bar ({a,10},{z,1000}}):
+		if (foo == bar)
+			std::cout << "foo and bar are equal\n";
+		if (foo != bar)
+			std::cout << "foo and bar are not equal\n";
+		if (foo < bar)
+			std::cout << "foo is less than bar\n";
+		if (foo > bar)
+			std::cout << "foo is greater than bar\n";
+		if (foo <= bar)
+			std::cout << "foo is less than or equal to bar\n";
+		if (foo >= bar)
+			std::cout << "foo is greater than or equal to bar\n";
+		std::cout << "---------------------------------" << std::endl;
+	}
+	{
+		std::cout << "insert and make_pair" << std::endl;
+		ft::map<int, int> mp;
+		for (int i = 0; i < 5; i++)
+		{
+			mp.insert(ft::make_pair(i, i * 2));
+		}
+		ft::map<int, int>::iterator it = mp.begin();
+		for (; it != mp.end(); it++)
+		{
+			std::cout << it->first << " " << it->second << std::endl;
+		}
+		std::cout << "---------------------------------" << std::endl;
+	}
+	std::cout << "================== SET EXAMPLES ==================" << std::endl;
+
+
+	ft::set<int> test_set;
+	test_set.insert(10);
+	test_set.insert(5);
+	test_set.insert(15);
+	test_set.insert(7);
+	test_set.insert(2);
+	test_set.insert(12);
+	test_set.insert(17);
+	test_set.insert(11);
+	test_set.insert(13);
+	std::set<int> test_set_std;
+	test_set_std.insert(10);
+	test_set_std.insert(5);
+	test_set_std.insert(15);
+	test_set_std.insert(7);
+	test_set_std.insert(2);
+	test_set_std.insert(12);
+	test_set_std.insert(17);
+	test_set_std.insert(11);
+	test_set_std.insert(13);
+	{
+		std::cout << "testing iterator" << std::endl;
+		ft::set<int>::iterator first = test_set.begin();
+		ft::set<int>::iterator last = test_set.end();
+		while (first != last)
+		{
+			std::cout << *first++ << ", ";
+		}
+
+		std::cout << std::endl << "std iterator" << std::endl;
+		std::set<int>::iterator firststd = test_set_std.begin();
+		std::set<int>::iterator laststd = test_set_std.end();
+		while (firststd != laststd)
+		{
+			std::cout << *firststd++ << ", ";
+		}
+		std::cout << std::endl << "---------------------------------" << std::endl;
+	}
+	{	
+		std::cout << "\n\ntesting reverse_iterator" << std::endl;
+		ft::set<int>::reverse_iterator			rev_first = test_set.rbegin();
+		ft::set<int>::reverse_iterator			rev_last = test_set.rend();
+
+		while (rev_first != rev_last)
+		{
+			std::cout << *rev_first++ << ", ";
+		}
+		std::cout << std::endl << "std reverse_iterator" << std::endl;
+		std::set<int>::reverse_iterator			rev_first_std = test_set_std.rbegin();
+		std::set<int>::reverse_iterator			rev_last_std = test_set_std.rend();
+
+		while (rev_first_std != rev_last_std)
+		{
+			std::cout << *rev_first_std++ << ", ";
+		}
+		std::cout << std::endl << "---------------------------------" << std::endl;
+	}
+	{
+		//TEST FIND
+		std::cout << "\n\nTEST FIND" << std::endl;
+		ft::set<int>::iterator it = test_set.find(11);
+		std::cout << "test_set.find(11) = " << *it << std::endl;
+		std::set<int>::iterator it_std = test_set_std.find(11);
+		std::cout << "test_set_std.find(11) = " << *it_std << std::endl;
+		std::cout << "---------------------------------" << std::endl;
+	}
+	{
+		std::cout << "\nTEST bound" << std::endl;
+		ft::set<int>::iterator it = test_set.lower_bound(11);
+		ft::set<int>::iterator ti = test_set.upper_bound(11);
+		std::cout << "test_set.lower_bound(11) = " << *it << std::endl;
+		std::cout << "test_set.upper_bound(11) = " << *ti << std::endl;
+
+		ft::pair<ft::set<int>::iterator, ft::set<int>::iterator> range = test_set.equal_range(11);
+		std::cout << "test_set.equal_range(11).first = " << *range.first << std::endl;
+		std::cout << "test_set.equal_range(11).second = " << *range.second << std::endl;
+		std::cout << "---------------------------------" << std::endl;
+	}
+	{
+		std::cout << "\ntest find/count" << std::endl;
+		ft::set<std::string> set1;
+		set1.insert("set1_uno");
+		set1.insert("set1_due");
+		ft::set<std::string>::iterator it = set1.find("set1_uno");
+		std::cout << "it value = " << *it << std::endl;
+		it = set1.find("set1_tre");
+		if (it == set1.end())
+			std::cout << "(set1.find(\"set1_tre\") == set1.end())" << std::endl;
+		if (set1.count("set1_tre"))
+			std::cout << "set1.count(\"set1_tre\") = é presente" << std::endl;
+		else
+			std::cout << "set1.count(\"set1_tre\") = non lo é" << std::endl;
+		std::cout << "---------------------------------" << std::endl;
+	}
+	{
+		std::cout << "\ntest erase" << std::endl;
+
+		std::cout << "tring to erase 11, result: " << test_set.erase(11) << std::endl;
+		std::cout << "tring to erase 11, result: " << test_set.erase(11) << std::endl;
+
+		std::cout << "tring to std erase 11, result: " << test_set_std.erase(11) << std::endl;
+		std::cout << "tring to std erase 11, result: " << test_set_std.erase(11) << std::endl;
+		std::cout << "---------------------------------" << std::endl;
+	}
+	{
+		std::cout << "\ntest operators" << std::endl;
+		ft::set<int> alice;
+		ft::set<int> bob;
+		ft::set<int> eve;
+
+		alice.insert(1);
+		alice.insert(2);
+		alice.insert(3);
+		bob.insert(7);
+		bob.insert(8);
+		bob.insert(9);
+		bob.insert(10);
+		eve.insert(1);
+		eve.insert(2);
+		eve.insert(3);
+
+		std::cout << std::boolalpha;
+
+		// Compare non equal containers
+		std::cout << "alice == bob returns " << (alice == bob) << '\n';
+		std::cout << "alice != bob returns " << (alice != bob) << '\n';
+		std::cout << "alice <  bob returns " << (alice < bob) << '\n';
+		std::cout << "alice <= bob returns " << (alice <= bob) << '\n';
+		std::cout << "alice >  bob returns " << (alice > bob) << '\n';
+		std::cout << "alice >= bob returns " << (alice >= bob) << '\n';
+
+		std::cout << '\n';
+
+		// Compare equal containers
+		std::cout << "alice == eve returns " << (alice == eve) << '\n';
+		std::cout << "alice != eve returns " << (alice != eve) << '\n';
+		std::cout << "alice <  eve returns " << (alice < eve) << '\n';
+		std::cout << "alice <= eve returns " << (alice <= eve) << '\n';
+		std::cout << "alice >  eve returns " << (alice > eve) << '\n';
+		std::cout << "alice >= eve returns " << (alice >= eve) << '\n';
+		std::cout << "---------------------------------" << std::endl;
 	}
 }

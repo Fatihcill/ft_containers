@@ -4,6 +4,7 @@
 #include <memory>
 #include <iostream>
 #include "utils.hpp"
+#include "iterator.hpp"
 
 #define BLACK 0
 #define RED 1
@@ -11,25 +12,34 @@
 namespace ft
 {
 
+	/*
+		Rules:
+			1- Nodes are Red or Black
+			2- Root and Nil(leaves) are black
+			3- If node is red, then its children are black
+			4- All paths from a node contain the same number of black nodes
+	*/
 	template < class T > struct Node
 	{
-		typedef	struct Node< T >*	NodePtr;
 		T value;
-		NodePtr parent;
-		NodePtr left;
-		NodePtr right;
+		struct Node< T >* parent;
+		struct Node< T >* left;
+		struct Node< T >* right;
 		bool	color;
 
 		bool	_TNULL;
+		//nil leaf
 		int		endflag;
-		NodePtr	endptr;
+		// 1 -> node is end
+		// 2 -> currently node is Nill
+		struct Node< T >*	endptr;
 
 		Node(const T& val) : value(val), parent(NULL), color(RED),  _TNULL(false), endflag(0), endptr(NULL){}
 		Node() : value(), parent(NULL), color(RED),  _TNULL(false), endflag(0), endptr(NULL){}
 	}; // end of Node structure
 
-	template < class T > struct RBTree_iterator	{
-
+	template < class T > struct RBTree_iterator
+	{
 		typedef T									value_type;
 		typedef value_type&							reference;
 		typedef value_type*							pointer;
@@ -38,12 +48,11 @@ namespace ft
 		typedef	std::bidirectional_iterator_tag		iterator_category;
 		typedef	std::ptrdiff_t						difference_type;
 
-		NodePtr father;
 		NodePtr TNULL;
 		NodePtr node;
 
 		RBTree_iterator() {}
-		RBTree_iterator(NodePtr node) : father(NULL), node(node) {}
+		RBTree_iterator(NodePtr node) : node(node) {}
 		RBTree_iterator(NodePtr node, NodePtr TNULL) : node(node), TNULL(TNULL) {}
 
 		reference operator*() const
@@ -152,6 +161,8 @@ namespace ft
 		NodePtr		_LAST;
 		NodePtr		_END;
 
+		//updated _END and _LAST
+		//_LAST is the biggest value of the map and _END is the 
 		void update_END()
 		{
 			NodePtr iter = root;
@@ -256,84 +267,87 @@ namespace ft
 			x->parent = y;
 		}
 
-		void fixOrphan(NodePtr dead, NodePtr orphan)
+		//help us move subtrees
+		
+		void transplant(NodePtr dead, NodePtr orphan)
 		{
-			if (nodeFather(dead) == NULL)
-				root = orphan; //QUI!!!!!
-			else if (dead == nodeFather(dead)->left)
-				nodeFather(dead)->left = orphan;
-			else
-				nodeFather(dead)->right = orphan;
+			if (dead->parent == NULL)			 // dead is root
+				root = orphan;
+			else if (dead == dead->parent->left) // dead is left
+				dead->parent->left = orphan;
+			else								// dead is right	
+				dead->parent->right = orphan;
 			if (orphan)
-				orphan->parent = nodeFather(dead);
+				orphan->parent = dead->parent;
 		}
 
-		NodePtr nodeFather(NodePtr k)
-		{
-			return k->parent;
-		}
-
-		NodePtr nodeGranfather(NodePtr k)
-		{
-			return k->parent->parent;
-		}
-
-		//ok sembra
+		/*	
+			Scenarios:
+				2- Z.uncle == red
+				3- Z.uncle == black(triangle)
+				4- Z.uncle == black(line)
+		*/
 		void balance_after_insetion(NodePtr k)
 		{
-			NodePtr u;
+			NodePtr uncle;
 			while (isRed(k->parent))
 			{
 				if (k->parent == k->parent->parent->right)
 				{
-					u = k->parent->parent->left;
-					if (isRed(u))
+					uncle = k->parent->parent->left;
+					if (isRed(uncle)) //Scenario 2 recoloring
 					{
-						u->color = BLACK;
+						uncle->color = BLACK;
 						k->parent->color = BLACK;
 						k->parent->parent->color = RED;
 						k = k->parent->parent;
 					}
 					else
 					{
-						if (k == k->parent->left)
+						if (k == k->parent->left) //Scenario 3
 						{
 							k = k->parent;
 							right_rotate(k);
 						}
 						k->parent->color = BLACK;
 						k->parent->parent->color = RED;
-						left_rotate(k->parent->parent);
+						left_rotate(k->parent->parent); //Scenario 4
 					}
 				}
 				else
 				{
-					u = k->parent->parent->right;;
-					if (isRed(u))
+					uncle = k->parent->parent->right;
+					if (isRed(uncle)) //Scenario 2 recoloring
 					{
-						u->color = BLACK;
+						uncle->color = BLACK;
 						k->parent->color = BLACK;
 						k->parent->parent->color = RED;
 						k = k->parent->parent;
 					}
 					else
 					{
-						if (k == k->parent->right)
+						if (k == k->parent->right) //Scenario 3
 						{
 							k = k->parent;
 							left_rotate(k);
 						}
 						k->parent->color = BLACK;
 						k->parent->parent->color = RED;
-						right_rotate(k->parent->parent);
+						right_rotate(k->parent->parent); //Scenario 4
 					}
 				}
 				if (k == root)
 					break;
 			}
 			root->color = BLACK;
-		};	// END INSERTION BALANCE
+		}
 
+		/*
+			1- w is red
+			2- w is black and w.left & right are black
+			3- w is black and w.left is red and w.right is black
+			4- w is black and w.right is red
+		*/
 		void balance_after_deletion(NodePtr x)
 		{
 			NodePtr s;
@@ -342,28 +356,28 @@ namespace ft
 				if(x == x->parent->left)
 				{
 					s = x->parent->right;
-					if (isRed(s))
+					if (isRed(s)) // type 1
 					{
 						s->color = BLACK;
 						x->parent->color = RED;
 						left_rotate(x->parent);
 						s = x->parent->right;
 					}
-					if (!isRed(s->left) && !isRed(s->right))
+					if (!isRed(s->left) && !isRed(s->right)) // type 2
 					{
 						s->color = RED;
 						x = x->parent;
 					}
 					else
 					{
-						if (!isRed(s->right))
+						if (!isRed(s->right)) // type 3
 						{
 							s->left->color = BLACK;
 							s->color = RED;
 							right_rotate(s);
 							s = x->parent->right;
 						}
-						s->color = x->parent->color;
+						s->color = x->parent->color; // type 4
 						x->parent->color = BLACK;
 						s->right->color = BLACK;
 						left_rotate(x->parent);
@@ -373,28 +387,28 @@ namespace ft
 				else
 				{
 					s = x->parent->left;
-					if (isRed(s))
+					if (isRed(s)) // type 1
 					{
 						s->color = BLACK;
 						x->parent->color = RED;
 						right_rotate(x->parent);
 						s = x->parent->left;
 					}
-					if (!isRed(s->left) && !isRed(s->right))
+					if (!isRed(s->left) && !isRed(s->right)) // type 2
 					{
 						s->color = RED;
 						x = x->parent;
 					}
-					else
+					else 
 					{
-						if (!isRed(s->left))
+						if (!isRed(s->left))//type 3
 						{
 							s->right->color = BLACK;
 							s->color = RED;
 							left_rotate(s);
 							s = x->parent->left;
 						}
-						s->color = x->parent->color;
+						s->color = x->parent->color; //type 4
 						x->parent->color = BLACK;
 						s->left->color = BLACK;
 						right_rotate(x->parent);
@@ -407,8 +421,6 @@ namespace ft
 
 
 	public:
-
-		//RBTree ok
 		explicit RBTree(const Compare& comp, const Allocator& alloc = Allocator()) : a(alloc), compare_function(comp)
 		{
 			TNULL = a.allocate(1);
@@ -478,39 +490,48 @@ namespace ft
 			a.deallocate(_END, 1);
 		};
 
-		//insertion ok
+		/*
+			Strategy:
+				1- insert z and color is red
+				2- recolor and rotate nodes to fix the tree
+			
+			Scenarios:
+				1- Z == root
+				2- Z.uncle == red
+				3- Z.uncle == black(triangle)
+				4- Z.uncle == black(line)
+		*/
 		ft::pair<iterator, bool> insertion(value_type z)
 		{
-			NodePtr father = NULL;
+			NodePtr parent = NULL;
 			NodePtr search = root;
 			while (search != TNULL)
 			{
-				father = search;
-				if (!comparison()(z, search->value) && !comparison()(search->value, z))
-					return ft::make_pair(iterator(search), false);
+				parent = search;
 				if(comparison()(z, search->value))
 					search = search->left;
 				else
 					search = search->right;
 			}
-			search = a.allocate( 1 );
-			a.construct( search, Node< T >(z));
-			search->parent = father;
+			search = a.allocate(1);
+			a.construct(search, Node<value_type>(z));
+			search->parent = parent;
 			search->left = TNULL;
 			search->right = TNULL;
-			if (father == NULL)
+			if (parent == NULL) //Scenario 1
 			{
 				root = search;
-				search->color = 0;
+				search->color = BLACK;
 				_RBTsize++;
 				update_END();
 				return ft::make_pair(iterator(search), true);
 			}
-			else if (comparison()(z, father->value))
-				father->left = search;
+			else if (comparison()(z, parent->value))
+				parent->left = search;
 			else
-				father->right = search;
-			if (search->parent->parent == NULL)
+				parent->right = search;
+
+			if (search->parent->parent == NULL) //adding child node of root
 			{
 				_RBTsize++;
 				update_END();
@@ -522,39 +543,38 @@ namespace ft
 			return ft::make_pair(iterator(search), true);
 		} // END INSERTION
 
-		//deletion ok
+		//Cases
+		//1- left is Nil
+		//2- right is Nil
+		//3- neither is Nil
 		size_type deletion(value_type z)
 		{
-			NodePtr nodeIter = root;
-			NodePtr toDelete = TNULL;
+			NodePtr toDelete = root;
 			NodePtr toBalance = NULL;
-			while (nodeIter != TNULL)
+			while (toDelete != TNULL)
 			{
-				if (comparison()(z, nodeIter->value) && !comparison()(nodeIter->value, z))
-					nodeIter = nodeIter->left;
-				else if (!comparison()(z, nodeIter->value) && comparison()(nodeIter->value, z))
-					nodeIter = nodeIter->right;
+				if (comparison()(z, toDelete->value)) // is less
+					toDelete = toDelete->left;
+				else if (!comparison()(z, toDelete->value)) // is greater
+					toDelete = toDelete->right;
 				else
-				{
-					toDelete = nodeIter;
 					break ;
-				}
 			}
 			if  (toDelete == TNULL)
 				return 0;
 			NodePtr y = toDelete;
 			bool original_color = y->color;
-			if (toDelete->left == TNULL)
+			if (toDelete->left == TNULL) // case 1
 			{
 				toBalance = toDelete->right;
-				fixOrphan(toDelete, toDelete->right);
+				transplant(toDelete, toDelete->right);
 			}
-			else if (toDelete->right == TNULL)
+			else if (toDelete->right == TNULL) //case 2
 			{
 				toBalance = toDelete->left;
-				fixOrphan(toDelete, toDelete->left);
+				transplant(toDelete, toDelete->left);
 			}
-			else
+			else //case 3
 			{
 				y = minimum(toDelete->right);
 				original_color = y->color;
@@ -563,11 +583,11 @@ namespace ft
 					toBalance->parent = y;
 				else
 				{
-					fixOrphan(y, y->right);
+					transplant(y, y->right);
 					y->right = toDelete->right;
 					y->right->parent = y;
 				}
-				fixOrphan(toDelete, y);
+				transplant(toDelete, y);
 				y->left = toDelete->left;
 				y->left->parent = y;
 				y->color = toDelete->color;
@@ -622,7 +642,8 @@ namespace ft
             _LAST = _END;
         }
 
-		iterator search(const value_type& z) {
+		iterator search(const value_type& z)
+		{
 			NodePtr search = root;
 			while (search != TNULL)
 			{
@@ -665,13 +686,14 @@ namespace ft
 			return false;
 		}
 
-		iterator lower_bound(const value_type& z) { //4
+		iterator lower_bound(const value_type& z) {
 			NodePtr search = root;
 			while (search != TNULL)
 			{
-				if (!comparison()(z, search->value) && !comparison()(search->value, z))
+				if (!comparison()(z, search->value) && !comparison()(search->value, z)) // is equal
 					return iterator(search);
-				else if (comparison()(z, search->value) && !comparison()(search->value, z)){
+				else if (comparison()(z, search->value)) // is smaller for std::less
+				{
 					if (search->left == TNULL)
 						return iterator(search);
 					search = search->left;
@@ -690,9 +712,10 @@ namespace ft
 			NodePtr search = root;
 			while (search != TNULL)
 			{
-				if (!comparison()(z, search->value) && !comparison()(search->value, z))
+				if (!comparison()(z, search->value) && !comparison()(search->value, z)) // is equal ?
 					return const_iterator(search);
-				else if (comparison()(z, search->value) && !comparison()(search->value, z)){
+				else if (comparison()(z, search->value))
+				{
 					if (search->left == TNULL)
 						return const_iterator(search);
 					search = search->left;
@@ -751,13 +774,7 @@ namespace ft
             return a;
         }
 		//-----------------------//
-	}; // END OF CLASS RBTREE
-	template <class Key, class Value>
-	std::ostream& operator<<(std::ostream& out, ft::pair<Key,Value>& v)
-	{
-		return out <<" <"<<v.first<<","<< v.second<<"> ";
-	}
-
-} // namespace ft
+	};
+}
 
 #endif

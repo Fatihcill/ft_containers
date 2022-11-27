@@ -180,12 +180,6 @@ namespace ft
 			return b;
 		};
 
-		iterator insert( iterator hint, const value_type& value )
-		{
-			(void)hint;
-			return tree.insertion(value).first;
-		};
-
 		template< class InputIt >
 		void insert( InputIt first, InputIt last )
 		{
@@ -351,4 +345,4 @@ namespace ft
 		{
 			lhs.swap(rhs);
 		};
-}
+	}
